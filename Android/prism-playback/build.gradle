@@ -27,7 +27,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(':prism-monitor')
+//    implementation project(':prism-monitor')
+    implementation "com.xiaojuchefu.prism:prism-monitor:0.9.1"
 }
 
 def localMavenRepo = 'file://E:/maven/repo'

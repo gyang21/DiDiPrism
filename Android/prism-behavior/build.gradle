@@ -29,7 +29,8 @@ dependencies {
 
     api 'com.google.code.gson:gson:2.8.5'
 
-    api project(':prism-monitor')
+    implementation "com.xiaojuchefu.prism:prism-monitor:0.9.1"
+//    api project(':prism-monitor')
 
 }
 
