@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
 
 android {
     compileSdkVersion 29
@@ -27,4 +28,33 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':prism-monitor')
+}
+
+def localMavenRepo = 'file://E:/maven/repo'
+def groupId = 'com.xiaojuchefu.prism'
+def artifactId = 'prism-playback'
+def version = '0.9.1'
+
+afterEvaluate { project ->
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+//                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                pom.groupId = groupId
+                pom.artifactId = artifactId
+                pom.version = version
+
+                repository(url: localMavenRepo) {
+                }
+
+                pom.project {
+                    name artifactId
+                    packaging "aar" // jar
+                    description "desc"
+                }
+            }
+        }
+    }
+
 }
