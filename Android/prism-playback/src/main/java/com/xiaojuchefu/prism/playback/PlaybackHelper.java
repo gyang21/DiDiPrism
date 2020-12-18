@@ -26,6 +26,9 @@ import java.util.List;
 public class PlaybackHelper {
 
     public static boolean validateWindow(PrismWindow prismWindow, String windowData) {
+        if (prismWindow == null || prismWindow.getWindow() == null){
+            return false;
+        }
         WindowManager.LayoutParams layoutParams = prismWindow.getWindow().getAttributes();
         String title = layoutParams.getTitle().toString().trim();
         String windowTitle = title.substring(title.indexOf("/") + 1);

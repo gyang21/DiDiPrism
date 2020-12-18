@@ -33,7 +33,7 @@ dependencies {
 def localMavenRepo = 'file://E:/maven/repo'
 def groupId = 'com.xiaojuchefu.prism'
 def artifactId = 'prism-playback'
-def version = '0.9.1'
+def version = '0.9.4'
 
 afterEvaluate { project ->
     uploadArchives {
