@@ -5,9 +5,8 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
-
-import androidx.annotation.NonNull;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.xiaojuchefu.prism.behavior.model.Rule;
 import com.xiaojuchefu.prism.monitor.PrismMonitor;
