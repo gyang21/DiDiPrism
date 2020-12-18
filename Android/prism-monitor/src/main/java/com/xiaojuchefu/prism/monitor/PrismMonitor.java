@@ -1,12 +1,11 @@
 package com.xiaojuchefu.prism.monitor;
 
 import android.app.Application;
+import android.arch.lifecycle.ProcessLifecycleOwner;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
-
-import androidx.lifecycle.ProcessLifecycleOwner;
 
 import com.xiaojuchefu.prism.monitor.core.GlobalWindowManager;
 import com.xiaojuchefu.prism.monitor.core.WindowCallbacks;

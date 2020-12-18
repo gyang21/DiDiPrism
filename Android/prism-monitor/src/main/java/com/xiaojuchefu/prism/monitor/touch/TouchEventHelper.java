@@ -3,6 +3,8 @@ package com.xiaojuchefu.prism.monitor.touch;
 import android.content.Context;
 import android.graphics.Point;
 import android.net.Uri;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +17,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import com.xiaojuchefu.prism.monitor.PrismConstants;
 import com.xiaojuchefu.prism.monitor.model.EventData;

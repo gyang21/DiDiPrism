@@ -1,13 +1,12 @@
 package com.xiaojuchefu.prism.monitor.touch;
 
 import android.graphics.Rect;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.reflect.Field;
 

@@ -1,8 +1,8 @@
 package com.xiaojuchefu.prism.monitor.event;
 
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.OnLifecycleEvent;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleObserver;
+import android.arch.lifecycle.OnLifecycleEvent;
 
 import com.xiaojuchefu.prism.monitor.PrismConstants;
 import com.xiaojuchefu.prism.monitor.PrismMonitor;

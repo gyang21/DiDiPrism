@@ -1,6 +1,7 @@
 package com.xiaojuchefu.prism.monitor.core;
 
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.ActionMode;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -11,8 +12,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
-
-import androidx.annotation.RequiresApi;
 
 public class WindowCallbacks implements Window.Callback {
 
