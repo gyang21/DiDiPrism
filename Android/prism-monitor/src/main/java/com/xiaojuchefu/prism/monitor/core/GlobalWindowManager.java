@@ -48,8 +48,7 @@ public class GlobalWindowManager {
             mViewsField.setAccessible(true);
             Object value = mViewsField.get(windowManagerGlobal);
             if (value instanceof List) {
-                List views = (List) mViewsField.get(windowManagerGlobal);
-                mWindowObserver.addAll(views);
+                mWindowObserver.addAll((List)value);
                 mViewsField.set(windowManagerGlobal, mWindowObserver);
             }
         } catch (IllegalAccessException e) {

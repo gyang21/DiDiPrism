@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mPlaybackEvents.clear();
-                PrismMonitor.getInstance().start();
                 PrismMonitor.getInstance().addOnPrismMonitorListener(mOnPrismMonitorListener);
+                PrismMonitor.getInstance().start();
                 startButton.setEnabled(false);
                 stopButton.setEnabled(true);
                 playbackLayout.setVisibility(View.GONE);
