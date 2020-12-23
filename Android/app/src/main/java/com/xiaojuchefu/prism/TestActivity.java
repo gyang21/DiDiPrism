@@ -1,5 +1,6 @@
 package com.xiaojuchefu.prism;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +11,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -26,6 +30,7 @@ import java.util.List;
 
 public class TestActivity extends AppCompatActivity {
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,13 +72,42 @@ public class TestActivity extends AppCompatActivity {
         for (int i = 0; i < 100; i++) {
             data.add("BUTTON " + i);
         }
-        ListView listView = findViewById(R.id.listview);
+        final ListView listView = findViewById(R.id.listview);
         listView.setAdapter(new QuickAdapter<String>(this, R.layout.item_view, data) {
             @Override
             protected void convert(int position, ViewHelper helper, String item) {
                 helper.setText(R.id.btn, item);
             }
         });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Log.d("onEvent2: ", "onItemClick pos = " + i);
+//            }
+//        });
+//        listView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                int item= listView.pointToPosition((int) event.getX(), (int) event.getY());
+//                Log.d("onTouch22 event: ", (int) event.getX() + " , " + (int) event.getY());
+//                Log.d("onTouch22: ", "---> 现在点击了ListView中第"+(item)+"个Item");
+//
+//                int[] location = new int[2];
+//                listView.getLocationOnScreen(location);
+//
+//                int index = listView.getChildCount() -1;
+//                View itemView = listView.getChildAt(index);
+//
+//
+//                int[] locationItem = new int[2];
+//                itemView.getLocationOnScreen(locationItem);
+//
+//                int indexList = listView.pointToPosition((int) locationItem[0]- location[0], (int) locationItem[1] - location[1]);
+//                Log.d("onTouch22: ", "last child indexList = " + indexList);
+//
+//                return false;
+//            }
+//        });
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

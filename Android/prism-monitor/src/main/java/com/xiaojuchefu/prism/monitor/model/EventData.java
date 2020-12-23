@@ -11,6 +11,7 @@ public class EventData {
     public long eventTime;
     @SerializedName("eventType")
     public int eventType;
+    // w_&_com.xiaojuchefu.prism.TestActivity_&_1_^_vp_&_1/0/5/0/content[01]/decor_content_parent/_^_vr_&_Button 2
     @SerializedName("eventId")
     public String eventId;
     @SerializedName("data")
@@ -25,4 +26,7 @@ public class EventData {
         return "e" + PrismConstants.Symbol.DIVIDER_INNER + eventType + (eventId != null ? (PrismConstants.Symbol.DIVIDER + eventId) : "");
     }
 
+    public String getEventId() {
+        return eventId;
+    }
 }

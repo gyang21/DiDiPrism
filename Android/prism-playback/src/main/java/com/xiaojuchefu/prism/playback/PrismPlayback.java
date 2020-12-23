@@ -210,7 +210,7 @@ public class PrismPlayback {
             }
         });
         animator.setDuration(1200);
-        animator.setRepeatCount(1);
+        animator.setRepeatCount(0);
         animator.start();
     }
 

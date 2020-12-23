@@ -32,6 +32,13 @@ public class TouchEventHelper {
     private static int mWindowWidth = -1;
     private static int mWindowHeight = -1;
 
+    /**
+     * 创建点击view的树路径id
+     * @param window window
+     * @param touchView touchView
+     * @param touchRecord touchRecord
+     * @return EventData
+     */
     public static EventData createEventData(Window window, View touchView, TouchRecord touchRecord) {
         if (touchView == null) {
             return null;
@@ -67,6 +74,11 @@ public class TouchEventHelper {
         return eventData;
     }
 
+    /**
+     * 拼接window属性
+     * @param window window
+     * @param eventId eventId
+     */
     private static void getWindowInfo(Window window, StringBuilder eventId) {
         eventId.append(PrismConstants.Symbol.WINDOW);
         eventId.append(PrismConstants.Symbol.DIVIDER_INNER);
@@ -105,6 +117,14 @@ public class TouchEventHelper {
         }
     }
 
+    /**
+     * 获取从点击的view到父view链的所有的index
+     * 如果存在view的id就记录view的idName, 那么父链中就不在记录上层index （因为已经可以通过id找到了）
+     * @param touchView touchView
+     * @param touchRecord touchRecord
+     * @param eventId eventId
+     * @return ViewPath
+     */
     private static ViewPath getViewPathInfo(View touchView, TouchRecord touchRecord, StringBuilder eventId) {
         ViewPath viewPath = new ViewPath();
         if (touchView instanceof WebView) {

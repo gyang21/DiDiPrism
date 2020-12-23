@@ -83,6 +83,13 @@ public class PlaybackHelper {
                                 return null; // 无法通过viewId查找到view，退出
                             }
 
+                            if (TextUtils.isEmpty(relativePath) && realItemPosition >= 0) {
+                                // 如果relativePath空 说明点击就是item本身
+                                View itemView = findItemViewByPosition(container, realItemPosition);
+                                targetView = itemView;
+                                return targetView;
+                            }
+
                             // 通过相对path查找
                             targetView = findTargetViewByPath(container, relativePath);
                             if (targetView != null) {
@@ -154,7 +161,7 @@ public class PlaybackHelper {
             return null;
         }
     }
-
+    // 根据传入的父viewgroup递归查找目标view，只查找可见的，直接通过findbyid可能会出错
     private static void findAllViewById(View view, int viewId, int dep, ArrayMap<Integer, List<View>> allView) {
         if (view.getId() == viewId) {
             List<View> views = allView.get(dep);
@@ -289,9 +296,20 @@ public class PlaybackHelper {
             ListView listView = (ListView) viewGroup;
             for (int i = 0; i < listView.getChildCount(); i++) {
                 View itemView = listView.getChildAt(i);
-                Rect itemViewRect = new Rect();
-                itemView.getLocalVisibleRect(itemViewRect);
-                int itemViewPosition = listView.pointToPosition(itemViewRect.centerX(), itemViewRect.centerY());
+
+                int[] location = new int[2];
+                listView.getLocationOnScreen(location);
+
+                int[] locationItem = new int[2];
+                itemView.getLocationOnScreen(locationItem);
+
+                int itemViewPosition = listView.pointToPosition(locationItem[0]- location[0], locationItem[1] - location[1]);
+
+                // 此方法无效
+//                Rect itemViewRect = new Rect();
+//                itemView.getLocalVisibleRect(itemViewRect);
+//                int itemViewPosition = listView.pointToPosition(itemViewRect.centerX(), itemViewRect.centerY());
+
                 if (position == itemViewPosition) {
                     return itemView;
                 }

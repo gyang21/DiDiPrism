@@ -28,7 +28,10 @@ public class MainActivity extends AppCompatActivity {
     PrismMonitor.OnPrismMonitorListener mOnPrismMonitorListener = new PrismMonitor.OnPrismMonitorListener() {
         @Override
         public void onEvent(EventData eventData) {
-            Log.d("onEvent2", eventData.getUnionId());
+            // w_&_com.xiaojuchefu.prism.TestActivity_&_1_^_vi_&_btn_^_vp_&_btn/*/recyclerview/content[01]/decor_content_parent/_^_vl_&_r:2,2_^_vr_&_BUTTON 2
+            // w_&_com.xiaojuchefu.prism.TestActivity_&_1_^_vp_&_*/recyclerview/content[01]/decor_content_parent/_^_vl_&_r:5,3_^_vr_&_BUTTON 5
+            Log.d("getEventId: ", eventData.getEventId() == null? "null" : eventData.getEventId());
+            Log.d("onEvent2: ", eventData.getUnionId());
             mPlaybackEvents.add(eventData);
         }
     };

@@ -12,9 +12,15 @@ import java.lang.reflect.Field;
 
 public class TouchTracker {
 
-    private static Field sTouchTargetField;
+    private static Field sTouchTargetField; // touch ACTION_DOWN事件记录的消费事件的view。
     private static Field sTouchTargetChildField;
 
+    /**
+     * 通过事件传递链-查找targetView
+     * @param rootView rootView
+     * @param location location
+     * @return 查找targetView
+     */
     public static View findTargetView(ViewGroup rootView, int[] location) {
         View nextTarget, target = null;
         if (ensureTargetField() && rootView != null) {
