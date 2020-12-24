@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -47,16 +48,20 @@ public class PlaybackHelper {
         String viewList = eventData.get(PrismConstants.Symbol.VIEW_LIST);
         String viewReference = eventData.get(PrismConstants.Symbol.VIEW_REFERENCE);
 
+        Log.d("|prism|playback| ", "findTargetView| eventData = " + eventData);
+
         if (validateWindow(prismWindow, windowData)) {
             if (viewPath != null) {
                 if (viewList != null) {
                     ViewGroup container = findTargetViewContainer(prismWindow.getDecorView(), viewPath, viewList);
                     if (container != null) {
+                        Log.d("|prism|playback| ", "findTargetView| viewId = " + viewId +" , list container = " + container.getClass().getName());
                         String listData = viewList.split(",")[0];
                         String relativePath = viewPath.substring(0, viewPath.indexOf("*"));
                         int realItemPosition = Integer.parseInt(listData.split(":")[1]);
                         // 是否需要滚动
                         if (needScroll(container, realItemPosition)) {
+                            Log.d("|prism|playback| ", "needScroll| realItemPosition = " + realItemPosition);
                             smoothScrollToPosition(container, realItemPosition);
                             return null;
                         } else {
@@ -107,18 +112,21 @@ public class PlaybackHelper {
                 if (viewId != null) { // 存在viewId
                     targetView = findTargetViewById(prismWindow.getDecorView(), viewId, viewPath, viewReference);
                     if (targetView != null) {
+                        Log.d("|prism|playback| ", " targetView = " + targetView);
                         return needScrollOrNot(targetView);
                     }
                 }
 
                 targetView = findTargetViewByPath(prismWindow.getDecorView(), viewPath);
                 if (targetView != null) {
+                    Log.d("|prism|playback| ", " targetView = " + targetView);
                     return needScrollOrNot(targetView);
                 }
 
                 if (!TextUtils.isEmpty(viewReference)) {
                     targetView = findTargetViewByReference(prismWindow.getDecorView(), viewReference);
                     if (targetView != null) {
+                        Log.d("|prism|playback| ", " targetView = " + targetView);
                         return needScrollOrNot(targetView);
                     }
                 }
@@ -133,6 +141,7 @@ public class PlaybackHelper {
         View scrollableView = findScrollableView(targetView);
         if (scrollableView != null) {
             if (needScroll(scrollableView, targetView)) {
+                Log.d("|prism|playback| ", " needScrollOrNot| needScroll = " + targetView);
                 smoothScrollToVisible(scrollableView, targetView);
                 return null;
             }

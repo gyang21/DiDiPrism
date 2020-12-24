@@ -82,15 +82,15 @@ public class TestActivity extends AppCompatActivity {
 //        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Log.d("onEvent2: ", "onItemClick pos = " + i);
+//                Log.d("|prism|app|onItemClick = : ", "onItemClick pos = " + i);
 //            }
 //        });
 //        listView.setOnTouchListener(new View.OnTouchListener() {
 //            @Override
 //            public boolean onTouch(View v, MotionEvent event) {
 //                int item= listView.pointToPosition((int) event.getX(), (int) event.getY());
-//                Log.d("onTouch22 event: ", (int) event.getX() + " , " + (int) event.getY());
-//                Log.d("onTouch22: ", "---> 现在点击了ListView中第"+(item)+"个Item");
+//                Log.d("|prism|app|onTouch xy = : ", (int) event.getX() + " , " + (int) event.getY());
+//                Log.d("|prism|app|onTouch = : ", "---> 现在点击了ListView中第"+(item)+"个Item");
 //
 //                int[] location = new int[2];
 //                listView.getLocationOnScreen(location);
@@ -103,7 +103,7 @@ public class TestActivity extends AppCompatActivity {
 //                itemView.getLocationOnScreen(locationItem);
 //
 //                int indexList = listView.pointToPosition((int) locationItem[0]- location[0], (int) locationItem[1] - location[1]);
-//                Log.d("onTouch22: ", "last child indexList = " + indexList);
+//                Log.d("|prism|app|onTouch = : ", "last child indexList = " + indexList);
 //
 //                return false;
 //            }
