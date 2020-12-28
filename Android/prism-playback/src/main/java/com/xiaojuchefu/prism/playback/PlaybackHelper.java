@@ -15,9 +15,11 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xiaojuchefu.prism.monitor.PrismConstants;
 import com.xiaojuchefu.prism.monitor.model.EventData;
+import com.xiaojuchefu.prism.monitor.touch.TouchEventHelper;
 import com.xiaojuchefu.prism.playback.model.EventInfo;
 
 import java.util.ArrayList;
@@ -57,7 +59,11 @@ public class PlaybackHelper {
                     if (container != null) {
                         Log.d("|prism|playback| ", "findTargetView| viewId = " + viewId +" , list container = " + container.getClass().getName());
                         String listData = viewList.split(",")[0];
-                        String relativePath = viewPath.substring(0, viewPath.indexOf("*"));
+                        String relativePath = viewPath;
+                        int starIndex = viewPath.indexOf("*");
+                        if (starIndex >= 0){
+                            relativePath = viewPath.substring(0, viewPath.indexOf("*"));
+                        }
                         int realItemPosition = Integer.parseInt(listData.split(":")[1]);
                         // 是否需要滚动
                         if (needScroll(container, realItemPosition)) {
@@ -93,6 +99,20 @@ public class PlaybackHelper {
                                 View itemView = findItemViewByPosition(container, realItemPosition);
                                 targetView = itemView;
                                 return targetView;
+                            }
+
+                            // 说明点击的view并不在滑到容器中，直接在父容器中通过id或index查找
+                            String lastViewPath = viewPath.split("/")[0];
+                            if (lastViewPath != "*") {
+                                targetView = findTargetViewByPath(container, lastViewPath);
+                                return targetView;
+                            }
+                            if (starIndex == -1){
+                                // 点击的view的描述
+
+                            } else {
+                              // 包含 * 代表 是滚动view， 但是 * 不在第一个
+
                             }
 
                             // 通过相对path查找
@@ -233,23 +253,27 @@ public class PlaybackHelper {
         String[] viewLists = viewList.split(",");
         int listIndex = viewLists.length / 2;
         int pathIndex = viewPaths.length - 1;
-        ViewGroup container = viewGroup;
+        View container = viewGroup;
         while (pathIndex >= 0) {
             String node = viewPaths[pathIndex];
             if (node.equals("*")) {
                 listIndex--;
-                if (listIndex == 0) {
-                    break;
-                } else {
+//                if (listIndex == 0) {
+//                    break;
+//                } else {
                     node = viewLists[listIndex * 2 + 1];
-                }
+//                }
             }
             try {
                 int position = Integer.parseInt(node);
-                if (position < container.getChildCount()) {
-                    View childView = container.getChildAt(position);
+                // 这里直接强转，默认当做viewgroup处理，最后的目标view找到后，不会在走这里
+                if (position < ((ViewGroup)container).getChildCount()) {
+                    View childView = ((ViewGroup)container).getChildAt(position);
                     if (childView instanceof ViewGroup) {
                         container = (ViewGroup) childView;
+                        Log.d("|prism|playback| ", "findTargetViewContainer| viewNode = " + node + " , babaViewId = " + container.getId()
+                                + ", babaViewName = " +TouchEventHelper.getResourceName(container.getContext(), container.getId())
+                                + ", class = " + container.getClass().getName());
                     } else {
                         return findPossibleContainerView(viewGroup);
                     }
@@ -263,32 +287,51 @@ public class PlaybackHelper {
                 } else {
                     if (view instanceof ViewGroup) {
                         container = (ViewGroup) view;
+                        Log.d("|prism|playback| ", "findTargetViewContainer| viewNode = " + node + " , babaViewId = " + container.getId()
+                                + ", babaViewName = " +TouchEventHelper.getResourceName(container.getContext(), container.getId())
+                                + ", class = " + container.getClass().getName());
                     } else {
-                        return findPossibleContainerView(viewGroup);
+                        if (pathIndex == 0) {
+                            // 已经找到最后一个不是viewgroup的目标view了
+                            container = view;
+                        } else {
+                            return findPossibleContainerView(viewGroup);
+                        }
                     }
                 }
             }
             pathIndex--;
         }
+
+        ViewGroup findViewContainer = null;
         if (container instanceof RecyclerView || container instanceof AbsListView || container instanceof ViewPager) {
-            return container;
+            findViewContainer = (ViewGroup)container;
         } else {
-            return findPossibleContainerView(viewGroup);
+//            findViewG = findPossibleContainerView(viewGroup);
+            findViewContainer = (ViewGroup)container.getParent();
         }
+        Log.d("|prism|playback| ", "findTargetViewContainer| final ViewContainer = " + findViewContainer + " , babaViewId = " + findViewContainer.getId()
+                + ", babaViewName = " +TouchEventHelper.getResourceName(findViewContainer.getContext(), findViewContainer.getId())
+                + ", class = " + container.getClass().getName());
+        return findViewContainer;
     }
 
     private static ViewGroup findPossibleContainerView(ViewGroup view) {
-        if (view instanceof RecyclerView || view instanceof AbsListView || view instanceof ViewPager) {
-            return view;
-        }
 
-        for (int i = 0; i < view.getChildCount(); i++) {
-            View childView = view.getChildAt(i);
-            if (childView instanceof ViewGroup && childView.getVisibility() == View.VISIBLE) {
-                ViewGroup result = findPossibleContainerView((ViewGroup) childView);
-                if (result != null) return result;
-            }
-        }
+        Toast.makeText(view.getContext(), "回放时，找不到目标view了", Toast.LENGTH_SHORT).show();
+        Log.d("|prism|playback| ", "回放时，找不到目标view了");
+
+//        if (view instanceof RecyclerView || view instanceof AbsListView || view instanceof ViewPager) {
+//            return view;
+//        }
+//
+//        for (int i = 0; i < view.getChildCount(); i++) {
+//            View childView = view.getChildAt(i);
+//            if (childView instanceof ViewGroup && childView.getVisibility() == View.VISIBLE) {
+//                ViewGroup result = findPossibleContainerView((ViewGroup) childView);
+//                if (result != null) return result;
+//            }
+//        }
         return null;
     }
 
@@ -301,8 +344,8 @@ public class PlaybackHelper {
                     return itemView;
                 }
             }
-        } else if (viewGroup instanceof ListView) {
-            ListView listView = (ListView) viewGroup;
+        } else if (viewGroup instanceof AbsListView) {
+            AbsListView listView = (AbsListView) viewGroup;
             for (int i = 0; i < listView.getChildCount(); i++) {
                 View itemView = listView.getChildAt(i);
 
@@ -331,7 +374,11 @@ public class PlaybackHelper {
             } else {
                 return viewPager.getChildAt(viewPager.getChildCount() / 2);
             }
-        }
+        } /*else if (viewGroup instanceof GridView) {
+            GridView gridView = (GridView) viewGroup;
+            gridView.point()
+
+        }*/
         return null;
     }
 
@@ -487,6 +534,11 @@ public class PlaybackHelper {
         } else if (container instanceof ViewPager) {
             ViewPager viewPager = (ViewPager) container;
             return realItemPosition != viewPager.getCurrentItem();
+        }else {
+            if (container.getParent() instanceof ViewPager) {
+                ViewPager viewPager = (ViewPager) container.getParent();
+                return realItemPosition != viewPager.getCurrentItem();
+            }
         }
         return false;
     }
@@ -530,6 +582,11 @@ public class PlaybackHelper {
         } else if (container instanceof ViewPager) {
             ViewPager viewPager = (ViewPager) container;
             viewPager.setCurrentItem(position);
+        } else {
+            if (container.getParent() instanceof ViewPager) {
+                ViewPager viewPager = (ViewPager) container.getParent();
+                viewPager.setCurrentItem(position);
+            }
         }
     }
 

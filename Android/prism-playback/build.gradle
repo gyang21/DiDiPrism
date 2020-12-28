@@ -26,14 +26,14 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(':prism-monitor')
-//    implementation "com.xiaojuchefu.prism:prism-monitor:0.9.3"
+//    implementation project(':prism-monitor')
+    implementation "com.xiaojuchefu.prism:prism-monitor:0.9.1"
 }
 
 def localMavenRepo = 'file://E:/maven/repo'
 def groupId = 'com.xiaojuchefu.prism'
 def artifactId = 'prism-playback'
-def version = '0.9.4'
+def version = '0.9.1'
 
 afterEvaluate { project ->
     uploadArchives {

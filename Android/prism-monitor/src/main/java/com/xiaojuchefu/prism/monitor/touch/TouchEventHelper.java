@@ -184,11 +184,11 @@ public class TouchEventHelper {
                 }
 
                 String resourceName = getResourceName(touchView.getContext(), touchView.getId());
-                if (resourceName != null) {
+                if (isList) {
+                    viewPathBuilder.append("*").append("/"); // 替换符，保持vp一致，去vl取
+                }else if (resourceName != null) {
                     viewPathBuilder.append(resourceName).append("/");
                     hasLastViewId = true;
-                } else if (isList) {
-                    viewPathBuilder.append("*").append("/"); // 替换符，保持vp一致，去vl取
                 } else {
                     if (!hasLastViewId) {
                         viewPathBuilder.append(index).append("/");

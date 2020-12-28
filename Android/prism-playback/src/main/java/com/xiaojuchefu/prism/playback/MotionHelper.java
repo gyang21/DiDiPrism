@@ -16,13 +16,17 @@ public class MotionHelper {
     public static void simulateClick(View view) {
         int[] outLocation = new int[2];
         view.getLocationOnScreen(outLocation);
-        float x = outLocation[0] + view.getWidth() / 2;
-        float y = outLocation[1] + view.getHeight() / 2;
+        float x = outLocation[0] + (view.getWidth() / 2);
+        float y = outLocation[1] + (view.getHeight() / 2);
         long downTime = SystemClock.uptimeMillis();
         final MotionEvent downEvent = MotionEvent.obtain(downTime, downTime, MotionEvent.ACTION_DOWN, x, y, 0);
         final MotionEvent upEvent = MotionEvent.obtain(downTime + 100, downTime + 100, MotionEvent.ACTION_UP, x, y, 0);
-        view.onTouchEvent(downEvent);
-        view.onTouchEvent(upEvent);
+//        view.performClick();
+//        view.onTouchEvent(downEvent);
+//        view.onTouchEvent(upEvent);
+        view.requestFocusFromTouch();
+        view.dispatchTouchEvent(downEvent);
+        view.dispatchTouchEvent(upEvent);
         downEvent.recycle();
         upEvent.recycle();
     }
