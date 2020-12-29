@@ -44,7 +44,7 @@ dependencies {
 def localMavenRepo = 'file://E:/maven/repo'
 def groupId = 'com.xiaojuchefu.prism'
 def artifactId = 'prism-monitor'
-def version = '0.9.1'
+def version = '0.9.3'
 
 afterEvaluate { project ->
     uploadArchives {

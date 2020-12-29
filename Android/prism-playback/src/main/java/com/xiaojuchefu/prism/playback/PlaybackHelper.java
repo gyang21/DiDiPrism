@@ -659,7 +659,7 @@ public class PlaybackHelper {
             ScrollView scrollView = (ScrollView) container;
             scrollView.smoothScrollBy(dx, dy);
         } else {
-            container.scrollBy(dx, dy);
+//            container.scrollBy(dx, dy);
         }
     }
 
